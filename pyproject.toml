@@ -1,0 +1,70 @@
+[tool.ruff]
+# Exclude common directories
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    ".ipynb_checkpoints",
+    "*.egg-info",
+]
+
+# Set the maximum line length
+line-length = 100
+
+# Assume Python 3.10+
+target-version = "py310"
+
+[tool.ruff.lint]
+# Enable specific rule sets
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "ARG", # flake8-unused-arguments
+    "SIM", # flake8-simplify
+]
+
+# Disable specific rules that are too strict for notebooks/data science work
+ignore = [
+    "E501",   # Line too long (handled by formatter)
+    "B008",   # Do not perform function calls in argument defaults
+    "B905",   # zip without explicit strict parameter
+    "ARG001", # Unused function argument (common in callbacks)
+    "ARG002", # Unused method argument (common in overrides)
+]
+
+# Allow autofix for all enabled rules
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+# Ignore certain rules in notebooks
+"*.ipynb" = [
+    "E402",  # Module level import not at top of file
+    "F401",  # Imported but unused (common in exploratory notebooks)
+    "F841",  # Local variable assigned but never used
+    "B018",  # Found useless expression
+]
+
+[tool.ruff.format]
+# Use double quotes for strings
+quote-style = "double"
+
+# Indent with spaces
+indent-style = "space"
+
+# Respect magic trailing commas
+skip-magic-trailing-comma = false
+
+# Auto-detect line endings
+line-ending = "auto"
+
+[tool.ruff.lint.isort]
+# Use a single line for each import
+force-single-line = false
+lines-after-imports = 2
