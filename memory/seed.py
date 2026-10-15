@@ -43,7 +43,9 @@ def wait_for_index(collection: Collection, timeout: float = 30.0) -> None:
     deadline = time.time() + timeout
     while time.time() < deadline:
         shards = collection.shards()
-        if all(s.vector_queue_length == 0 and s.vector_indexing_status != "INDEXING" for s in shards):
+        if all(
+            s.vector_queue_length == 0 and s.vector_indexing_status != "INDEXING" for s in shards
+        ):
             return
         time.sleep(0.25)
     raise TimeoutError("the vector index did not catch up within 30 seconds")

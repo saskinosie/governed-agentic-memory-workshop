@@ -106,8 +106,10 @@ def predownload_embedded() -> None:
             port=8079,
             grpc_port=50050,
         )
-        ready = client.is_ready()
-        client.close()
+        try:
+            ready = client.is_ready()
+        finally:
+            client.close()
         print(f"Embedded Weaviate started and stopped cleanly (ready={ready}).\n")
     except Exception as exc:  # noqa: BLE001
         print(f"Embedded Weaviate could not start: {exc}")
