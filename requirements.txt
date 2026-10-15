@@ -1,13 +1,16 @@
-weaviate-client==4.16.10
-pydantic>=2.8.0
-pydantic-ai>=1.0.0
-openai>=1.50.0
-pandas>=2.0.0
-numpy>=2.0.0
-python-dotenv>=1.0.0
+# Core path. No API keys needed.
+weaviate-client>=4.16,<5
+sentence-transformers>=3.0
+numpy>=1.26
+pandas>=2.0
+python-dotenv>=1.0
+
+# Notebooks
 jupyter
 jupyterlab
 ipykernel
 ipywidgets
 tqdm
-ruff>=0.8.0
+
+# Dev
+ruff>=0.8

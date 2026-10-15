@@ -163,3 +163,14 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Workshop specifics
+# The governance package lives in memory/. Some global gitignores exclude a
+# folder with this name (case-insensitive filesystems match Memory/), so
+# un-ignore it here explicitly and keep only local artifacts out.
+!memory/
+memory/transcripts/
+memory/**/__pycache__/
+.weaviate-embedded/
+data/weaviate-embedded/
+notebooks/*.nbconvert.ipynb

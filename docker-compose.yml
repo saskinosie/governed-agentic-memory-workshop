@@ -16,7 +16,7 @@ services:
     - weaviate_data:/var/lib/weaviate
     restart: on-failure:0
     environment:
-      ASYNC_INDEXING: 'true'
+      ASYNC_INDEXING: 'false'
       QUERY_DEFAULTS_LIMIT: 25
       PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
       ENABLE_API_BASED_MODULES: 'true'

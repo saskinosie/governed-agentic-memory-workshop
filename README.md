@@ -1,225 +1,227 @@
 # From Retrieval to Recall: Building Governed Agentic Memory on Vector Databases
 
-![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![Python](https://img.shields.io/badge/python-3.11+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Weaviate](https://img.shields.io/badge/weaviate-1.32-green.svg)
+![No API keys](https://img.shields.io/badge/API%20keys-none%20required-brightgreen.svg)
 
-> Build the write path for agent memory: capture candidates with provenance, score them for novelty and contradiction, gate them with a deterministic policy, promote them through tiers, and decay them on a schedule.
+> Build the write path for agent memory: **Capture** candidates with provenance, **Score** them for novelty and contradiction, **Gate** them with a deterministic policy, **Promote** them through tiers, and **Decay** them on a schedule. Then try to poison your own memory store and watch the gate catch it.
 
-## Overview
+ODSC AI West 2026, Burlingame CA. Two-hour hands-on workshop. The framing is in the companion blog post, [Your Agent's Memory Is an Attack Surface](https://opendatascience.com/governed-agentic-memory-five-step-pattern/), so the room gets the short version and we spend the time building.
 
-Retrieval-augmented generation reads. Memory writes. That difference changes almost everything about the machinery you need.
+## The story first
 
-A RAG corpus is curated by humans before the system ever runs. An agent's memory is written by the agent itself, at speed, from whatever it happened to observe. Nobody reviews it first. So the interesting failure modes move from the read path to the write path: an agent stores something wrong, stores it confidently, and then retrieves it for weeks as if it were fact. Worse, an attacker who can influence what the agent observes can influence what the agent believes.
+Retrieval-augmented generation taught us how to read from a vector database. A human curated the corpus, a pipeline embedded it, and the model read from it. The hard problems were on the read path: chunking, hybrid search, reranking.
 
-This workshop builds the governance layer that sits between an agent and its memory store. You will implement a fail-closed policy gate, then try to poison your own memory store and watch the gate catch it.
+Agent memory moves the hard problems to the write path. The agent is now the curator. It writes what it observed, at speed, with no reviewer in the loop. If it stores something wrong, it stores it confidently and retrieves it for weeks as if it were fact. And if someone can influence what the agent observes, they can influence what it believes. OWASP now lists memory poisoning as ASI06 in its Top 10 for agentic applications, and the published attacks against ungoverned stores succeed most of the time.
 
-## What You'll Learn
+Much of the RAG playbook still applies. What is missing is a review step, and that is what we build: a governance layer that sits between an agent and its memory store.
 
-The workshop runs on a five-step vocabulary. Every notebook uses the same five words: **Capture, Score, Gate, Promote, Decay**.
+If you are new to vector databases, no worries. The store is handed to you working and the part you build is plain Python. If you have built RAG before, you already have half of this. If you run agents in production, you know the failure modes better than I do, and I would like to hear about them in the room.
 
-### Part 1: Why Memory Is Not RAG
-**Framing** (0:00 to 0:10): What changes when the system writes its own corpus
-- Read-path assumptions that do not carry over to the write path
-- Where memory systems actually fail in production
-- **Key insight**: The curator moved from a human to the agent, and no one replaced the review step
+## What you will build
 
-### Part 2: The Retrieval Substrate ([0-setup.ipynb](notebooks/0-setup.ipynb))
-**Foundation** (0:10 to 0:30): The store, and the metadata that makes governance possible
-- Connect to a local Weaviate instance and confirm your environment
-- Memory-oriented schemas: provenance, confidence, tier, corroboration count, review date
-- Hybrid search over memory records, and why sparse matching matters for contradiction detection
-- **Key insight**: Governance needs metadata that a plain RAG schema does not carry
+Every notebook uses the same five words, in the same order: **Capture, Score, Gate, Promote, Decay**.
 
-### Part 3: Building the Write Path
-**Hands-on build** (0:30 to 1:15): The core of the workshop, and the part you implement
+### Part 1: Why Memory Is Not RAG (0:00 to 0:10)
+Talk, no laptop needed yet. What changes when the system writes its own corpus, where memory systems fail in production, and the 2026 landscape in one slide.
 
-**[1-capture-and-score.ipynb](notebooks/1-capture-and-score.ipynb)**
-- Capture candidate memories with full provenance: who, when, in what context, with what confidence
-- Score for novelty against what is already stored, for utility, and for contradiction
-- **Key insight**: A candidate memory is a proposal, not a fact
+### Part 2: The Retrieval Substrate (0:10 to 0:30) [notebook 0](notebooks/0-setup.ipynb)
+- Confirm your environment and find out which of the three tiers you are on
+- A memory-oriented schema: provenance, confidence, tier, corroboration count, review date
+- Seed the store with a small fictional company handbook and run hybrid search over it
+- **Why it matters**: governance needs metadata that a plain RAG schema does not carry
 
-**[2-gate.ipynb](notebooks/2-gate.ipynb)**
-- Build a deterministic, fail-closed policy gate in front of the store
-- **The poisoning exercise**: attempt to inject false memories into your own store and watch the gate reject them
-- **Key insight**: Policy as a gate behaves differently from policy as a prompt, because a gate cannot be talked out of its decision
+### Part 3: Building the Write Path (0:30 to 1:15, protected)
+The core of the workshop and the part you implement.
 
-**[3-promote-and-decay.ipynb](notebooks/3-promote-and-decay.ipynb)**
-- Tiered promotion from session to team to organization, with corroboration counts
-- Explicit human endorsement as a requirement for the top tier
-- Decay through lifespans, review triggers, and usage-based aging
-- **Key insight**: Memories that are never re-examined drift out of true, so aging is a feature
+**[Notebook 1, Capture and Score](notebooks/1-capture-and-score.ipynb)** (scaffolded, small TODOs)
+- Capture a candidate memory with full provenance: who, when, in what context, with what confidence
+- Score it for novelty against the store, for utility, and for contradiction with what is already there
+- **Why it matters**: a candidate memory is a proposal, not a fact
 
-### Part 4: Evaluating and Governing Memory ([4-evaluation.ipynb](notebooks/4-evaluation.ipynb))
-**Measurement** (1:15 to 1:40): Knowing whether the governance layer actually works
-- Promotion precision and recall, measured against a small labeled set of candidate memories
-- Gate catch rate on a held-out set of known-bad candidates
-- Poisoning resistance, measured as the share of adversarial candidates the gate rejects
-- Each metric is defined in the notebook, alongside how the labeled data was built and what it does not tell you
-- **Key insight**: Without labels you have opinions about your memory system, not measurements
+**[Notebook 2, Gate](notebooks/2-gate.ipynb)** (you build this one)
+- A deterministic, fail-closed policy gate in front of the store: a list of plain Python policies, any one of which can deny
+- **The poisoning exercise**: inject false policies, smuggled instructions, and leaked credentials into your own store and watch the gate reject them with a logged reason
+- A stretch cell: extend the gate to catch an attack class we did not discuss in the room
+- **Why it matters**: a policy in a system prompt can be argued with. A gate cannot.
 
-The remaining 20 minutes are reserved for setup issues, troubleshooting, recap, and questions.
+**[Notebook 3, Promote and Decay](notebooks/3-promote-and-decay.ipynb)** (prebuilt, walked through together)
+- Promotion from session to team to organization, on corroboration from distinct sources
+- The top tier requires explicit human endorsement, an intentional endorsement gate by design
+- Decay through lifespans, review triggers, and usage-based aging, with a simulated clock so you can watch a year go by
+- **Why it matters**: a memory nobody re-examines drifts out of true, so aging is a feature
 
-## What Is Prebuilt and What You Build
+### Part 4: Evaluating and Governing Memory (1:15 to 1:40) [notebook 4](notebooks/4-evaluation.ipynb)
+- Promotion precision and recall against a small labeled set of candidates
+- Gate catch rate on known-bad candidates, and poisoning resistance on adversarial ones
+- Each metric defined in the notebook, with how the labels were made and what they do not tell you
+- **Why it matters**: without labels you have opinions about your memory system, not measurements
 
-Two hours is not long, so the repo hands you the parts that teach little and protects your time for the parts that teach a lot.
+The remaining 20 minutes are a buffer for setup trouble, recap, and questions.
+
+## Prebuilt, scaffolded, or yours
+
+Two hours is not long. The repo hands you the parts that teach little and protects your time for the parts that teach a lot.
 
 | Component | Who builds it |
 |---|---|
-| Weaviate container, schema, seed corpus | Prebuilt. Handed to you working. |
-| Capture and scoring functions | Scaffolded with TODO cells you complete |
-| The policy gate | You build most of it. This is the centerpiece. |
-| Promotion and decay | Mostly prebuilt, walked through together |
-| Evaluation harness | Prebuilt, run together |
+| Weaviate (any tier), schema, seed corpus, embeddings | Prebuilt. Handed to you working. |
+| Capture and Score | Scaffolded. Working code with a few small TODO cells you complete. |
+| The Gate | **You build most of it.** This is the centerpiece. |
+| Promote and Decay | Prebuilt. Read-through, narrated together. |
+| Evaluation | Prebuilt. Run together. |
 
-## This Pattern Is Not Weaviate-Specific
+If you fall behind, every notebook has a cell that loads the reference implementation from `memory/reference.py`, so the next notebook always works.
 
-Weaviate is the teaching substrate here, chosen because hybrid search helps with contradiction detection and because the container is easy to run locally. The governance layer sits **above** the vector database and reads it through a narrow interface: similarity search, metadata filtering, and writes.
-
-Every notebook marks what is Weaviate-specific and what is portable. The same pattern runs on Qdrant, Milvus, pgvector, or anything else that can do vector search with metadata filters. If you came here to learn Weaviate, you will learn some. If you came here to learn governed memory, the vendor is an implementation detail.
-
-## Quick Start
+## Quick start
 
 ### Prerequisites
-- Python 3.10+
-- Docker Desktop ([download here](https://docs.docker.com/get-started/get-docker/))
-- OpenAI API key ([get one here](https://platform.openai.com/api-keys))
-- A code editor with Jupyter notebook support. [VS Code](https://code.visualstudio.com/) or [Cursor](https://www.cursor.com/) recommended.
+- Python 3.11 or newer
+- Docker Desktop ([download](https://docs.docker.com/get-started/get-docker/)). If you cannot run Docker, see the fallback tiers below. You can still do everything.
+- A code editor with Jupyter support. [VS Code](https://code.visualstudio.com/) or [Cursor](https://www.cursor.com/) work well, and plain JupyterLab is fine.
+- No API keys. Embeddings run locally.
 
-> **Important**: Setup downloads several hundred MB. **Complete all setup at home before the workshop.** Conference Wi-Fi will not reliably carry a room full of people doing this at once.
+> **Please do the setup at home.** It downloads a few hundred MB (the Weaviate image, PyTorch, and a small embedding model). Conference Wi-Fi will not carry a room full of people doing this at once.
 
 ### Setup
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/saskinosie/from-retrieval-to-recall.git
-cd from-retrieval-to-recall
+git clone https://github.com/saskinosie/governed-agentic-memory-workshop.git
+cd governed-agentic-memory-workshop
 ```
 
-**2. Run the setup script**
+**2. Create an environment and run the setup script**
 ```bash
+python -m venv .venv
+source .venv/bin/activate      # Windows: .venv\Scripts\activate
 python setup.py
 ```
 
-This pulls the Weaviate image, installs dependencies, and verifies the result. To do it by hand instead:
+The script pulls the Weaviate image, installs dependencies, pre-downloads the embedding model and the Embedded Weaviate binary, and tells you which tiers are ready on your machine.
 
-```bash
-docker pull semitechnologies/weaviate:1.32.9
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-**3. Configure credentials**
+**3. Configure**
 ```bash
 cp .env.example .env
-# Edit .env and add your OpenAI API key
 ```
+
+The defaults are right for Docker. Set `ATTENDEE_HANDLE` to a short name (letters and digits) so your output is labeled.
 
 **4. Start Weaviate**
 ```bash
 docker compose up -d
 ```
 
-Weaviate will be available at `http://localhost:8080`.
-
 **5. Verify**
 
-Open `notebooks/0-setup.ipynb` and run the cells. If the last cell prints a green check, you are ready.
+Open [notebooks/0-setup.ipynb](notebooks/0-setup.ipynb) and run it. The last cell prints your tier and a green check.
 
-### Fallback Options
+### Fallback tiers
 
-If Docker or your model endpoint will not cooperate, you have two ways to keep going. Neither one changes what you learn.
+Setup fails for somebody in every room. Three tiers, one variable (`WEAVIATE_MODE` in `.env`), identical code and identical notebooks on each.
 
-1. **Weaviate Embedded**: runs in-process, no Docker required. Set `USE_EMBEDDED_WEAVIATE=1` in your `.env` and restart the notebook kernel. Notebook 0 detects the flag and takes the embedded path.
-2. **Prebaked collection snapshots**: if ingestion fails or is slow, load the snapshot in `data/` and skip straight to the write-path notebooks.
+| Tier | `WEAVIATE_MODE` | What it is | When to use it |
+|---|---|---|---|
+| 1 | `docker` | Local container from `docker-compose.yml` | Primary. Use it if Docker runs. |
+| 2 | `embedded` | Weaviate Embedded, in-process, no Docker. Mac and Linux only. | Docker will not start. |
+| 3 | `cloud` | A shared Weaviate Cloud sandbox with one collection per attendee, prefixed with your handle | Windows, or nothing local works. Credentials given out in the room. |
 
-Both fallbacks are checked during setup in notebook 0, so you will know which path you are on before the build block starts.
+Notebook 0 walks all three and reports which one you landed on. If ingestion is slow or the embedding model will not load, the workshop texts ship pre-embedded in `data/vector_cache.json`, so seeding takes seconds on any tier and the model is only needed for text you type yourself.
 
-## Architecture
+## How it fits together
 
 ```
 Agent observes something
- ↓
-[Capture] ........ candidate memory + provenance (who, when, context, confidence)
- ↓
-[Score] .......... novelty vs. existing store | utility | contradiction check
- ↓
-[Gate] ........... deterministic policy, fail-closed
- ↓                      ↓
-accept              reject → logged with reason, never silently dropped
- ↓
-[Promote] ........ session → team → org, gated on corroboration + human endorsement
- ↓
-[Decay] .......... lifespan, review trigger, usage-based aging
- ↓
-Weaviate (vector + metadata)
- ↑
+ |
+[Capture] ....... candidate memory + provenance (who, when, context, confidence)
+ |
+[Score] ......... novelty vs. the store | utility | contradiction check
+ |
+[Gate] .......... deterministic policies, fail closed
+ |                        |
+ accept               reject, logged with a reason, never silently dropped
+ |
+[Promote] ....... session -> team -> org, on corroboration + human endorsement
+ |
+[Decay] ......... lifespan, review trigger, usage-based aging
+ |
+Weaviate (vectors + metadata)
+ ^
 Agent reads (hybrid search, tier-filtered)
 ```
 
-## Project Structure
+## This pattern is not Weaviate-specific
+
+Weaviate is the teaching substrate. I picked it because hybrid search helps with contradiction detection, because the container is easy to run locally, and because Embedded gives a second tier with no Docker. The governance layer sits **above** the database and reads it through a narrow interface: similarity search, metadata filters, writes, and updates.
+
+Every notebook ends with a short transferability cell that says what was Weaviate-specific and what was portable. The same pattern runs on Qdrant, Milvus, pgvector, or anything else with vector search and metadata filters. If you came to learn Weaviate you will learn some. If you came to learn governed memory, the vendor is an implementation detail.
+
+## Project structure
 
 ```
-├── notebooks/
-│   ├── 0-setup.ipynb                  # Environment check, schema, fallback path
-│   ├── 1-capture-and-score.ipynb      # Provenance, novelty, contradiction
-│   ├── 2-gate.ipynb                   # Fail-closed policy gate + poisoning exercise
-│   ├── 3-promote-and-decay.ipynb      # Tiered promotion, endorsement, aging
-│   └── 4-evaluation.ipynb             # Memory-specific metrics on labeled data
-├── memory/                            # The governance layer as importable modules
-├── data/                              # Seed corpus and prebaked snapshots
-├── img/                               # Setup screenshots
-├── setup.py                           # Pre-download script, run before the workshop
-├── docker-compose.yml                 # Local Weaviate instance
-├── requirements.txt                   # Python dependencies
-├── .env.example                       # Template for credentials
-├── pyproject.toml                     # Ruff linter/formatter config
-└── README.md                          # You are here!
+notebooks/
+  0-setup.ipynb                # Tier check, schema, seed, hybrid search
+  1-capture-and-score.ipynb    # Provenance, novelty, utility, contradiction (TODOs)
+  2-gate.ipynb                 # Fail-closed policy gate + poisoning exercise (you build)
+  3-promote-and-decay.ipynb    # Tiers, endorsement, aging (prebuilt)
+  4-evaluation.ipynb           # Memory metrics on labeled data (prebuilt)
+memory/                        # The governance layer as small importable modules
+  connect.py                   # One function, three tiers
+  schema.py                    # The MemoryRecord collection
+  embed.py                     # Local embeddings, cache first
+  capture.py                   # Candidate memories with provenance
+  score.py                     # Novelty, utility, contradiction
+  gate.py                      # Gate, Policy, Decision. Fail closed.
+  lifecycle.py                 # Promote and Decay
+  evaluate.py                  # Metrics on labeled candidates
+  reference.py                 # Finished versions of the attendee parts
+data/
+  seed_corpus.json             # Brightwater Supply Co. handbook, about 50 facts
+  attacks.json                 # Adversarial candidates for the poisoning exercise
+  labeled_candidates.json      # Good / bad / adversarial, labeled, for notebook 4
+  vector_cache.json            # Pre-embedded workshop texts
+setup.py                       # Run at home before the workshop
+docker-compose.yml             # Tier 1
+.env.example                   # Tier switch and handle
 ```
 
-## Key Technologies
+## Key technologies
 
-- **[Weaviate](https://weaviate.io/)** Open-source vector database with native hybrid search, run locally via Docker
-- **[Pydantic AI](https://ai.pydantic.dev/)** Framework for building production-grade AI agents
-- **[OpenAI](https://platform.openai.com/)** Embeddings and language model for scoring and agent reasoning
-- **Docker** Local, reproducible substrate so nothing depends on a hosted account
+- **[Weaviate](https://weaviate.io/)**, open-source vector database with native hybrid search. Docker, Embedded, or Cloud.
+- **[sentence-transformers](https://www.sbert.net/)**, local embeddings (`all-MiniLM-L6-v2`, 384 dimensions, about 90 MB). No account, no key.
+- **Docker**, a local, reproducible substrate so nothing depends on a hosted account.
+- Plain Python for the governance layer. No agent framework, on purpose. The pattern should be readable in one sitting.
 
-## Key Takeaways
+## What you will take home
 
-- Why the write path, not the read path, is where memory systems fail
+- Why the write path, not the read path, is where memory systems tend to fail
 - How to make a memory candidate carry enough provenance to be judged
 - How a deterministic gate differs from an instruction in a system prompt
-- Why promotion tiers need corroboration and human endorsement, not just a confidence score
+- Why promotion tiers need corroboration from distinct sources and human endorsement, not a confidence score alone
 - How to measure a memory system instead of trusting it
 
 ## Contributing
 
-Found a bug? Have an improvement? Contributions are welcome!
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-addition`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-addition`)
-5. Open a Pull Request
+Found a bug or have an improvement? Open an issue or a pull request. Keep the five step names as they are; they match the published blog.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+MIT. See [LICENSE](LICENSE).
 
-## About the Presenter
+## About the presenter
 
-Scott Askinosie is a Senior Principal AI Engineer at Steel Engine, where he leads the design and deployment of autonomous, agentic AI systems for enterprise clients. His current work centers on a question that is becoming urgent for the field: how do we govern AI systems that act on their own? From observability and tracing to evaluation and guardrails, Scott focuses on the infrastructure that makes agentic AI trustworthy enough to put into production.
+Scott Askinosie, Ph.D., is Principal AI Architect, Knowledge & Memory Systems at SteelEngine, where he works on the memory and governance layers under enterprise agents. His current question is a practical one: how do we govern AI systems that act on their own, and remember what they did?
 
-Scott came to AI engineering by way of science. He holds a PhD in Quantitative Biology and spent his early career as a research scientist before moving into data science and, eventually, applied AI. That research training still shapes how he works, with an emphasis on measurement, reproducibility, and asking whether a system actually does what we claim it does.
+Scott came to AI engineering by way of science. He holds a Ph.D. in Quantitative Biology and spent his early career as a research scientist before moving into data science and applied AI. That training still shapes the work: measure it, reproduce it, and ask whether the system actually does what we claim.
 
-## Resources & Further Reading
+## Resources and further reading
 
-- [Weaviate Documentation](https://weaviate.io/developers/weaviate)
-- [Weaviate Hybrid Search](https://weaviate.io/developers/weaviate/search/hybrid)
-- [Pydantic AI Documentation](https://ai.pydantic.dev/)
-- [OWASP Agentic Security Initiative](https://genai.owasp.org/)
+- [Weaviate documentation](https://weaviate.io/developers/weaviate) and [hybrid search](https://weaviate.io/developers/weaviate/search/hybrid)
+- [OWASP Top 10 for Agentic Applications](https://genai.owasp.org/), ASI06 Memory Poisoning
+- [AgentPoison](https://arxiv.org/abs/2407.12784) (NeurIPS 2024) and [MINJA](https://arxiv.org/abs/2503.03704), published attacks on agent memory
+- [Your Agent's Memory Is an Attack Surface](https://opendatascience.com/governed-agentic-memory-five-step-pattern/), the companion post
 
 ---
 
-**See you in San Francisco!**
+**See you in Burlingame!**

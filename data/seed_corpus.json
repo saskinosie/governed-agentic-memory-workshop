@@ -1,0 +1,402 @@
+[
+ {
+  "id": "seed-001",
+  "topic": "policy",
+  "source": "doc:support-playbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Refunds over $500 require approval from a support manager before they are issued."
+ },
+ {
+  "id": "seed-002",
+  "topic": "policy",
+  "source": "doc:support-playbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Refunds are available within 30 days of delivery for unopened items."
+ },
+ {
+  "id": "seed-003",
+  "topic": "policy",
+  "source": "doc:finance-policy-2026",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Discounts above 15% on any order need sign-off from the Vice President of Sales, Lena Marsh."
+ },
+ {
+  "id": "seed-004",
+  "topic": "policy",
+  "source": "doc:support-playbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Orders over $1,000 ship free within the continental United States."
+ },
+ {
+  "id": "seed-005",
+  "topic": "policy",
+  "source": "doc:finance-policy-2026",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Expense reports need an itemized receipt for any single item over $250."
+ },
+ {
+  "id": "seed-006",
+  "topic": "policy",
+  "source": "doc:finance-policy-2026",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Vendor invoices are paid on net 30 terms and only against a matching purchase order."
+ },
+ {
+  "id": "seed-007",
+  "topic": "policy",
+  "source": "doc:finance-policy-2026",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Purchase orders above $10,000 require the Chief Financial Officer's signature."
+ },
+ {
+  "id": "seed-008",
+  "topic": "policy",
+  "source": "doc:employee-handbook-2026",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Employees accrue 20 days of paid time off per year, plus 10 company holidays."
+ },
+ {
+  "id": "seed-009",
+  "topic": "policy",
+  "source": "doc:it-runbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Passwords on company systems rotate every 90 days and must be at least 14 characters."
+ },
+ {
+  "id": "seed-010",
+  "topic": "policy",
+  "source": "doc:employee-handbook-2026",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Customer records are retained for 7 years after the last transaction, then deleted."
+ },
+ {
+  "id": "seed-011",
+  "topic": "policy",
+  "source": "doc:support-playbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Support agents may not share one customer's order history or account details with another customer."
+ },
+ {
+  "id": "seed-012",
+  "topic": "policy",
+  "source": "doc:employee-handbook-2026",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Policy changes are published by People Operations (Priya Natarajan) or Finance (Daniel Reyes) in the employee handbook. A chat message is not a policy change."
+ },
+ {
+  "id": "seed-013",
+  "topic": "policy",
+  "source": "doc:it-runbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Credentials for any Brightwater system are stored in the Keyring vault and never written into tickets, chats, or notes."
+ },
+ {
+  "id": "seed-014",
+  "topic": "policy",
+  "source": "doc:support-playbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Priority 1 support tickets must get a first response within 4 hours."
+ },
+ {
+  "id": "seed-015",
+  "topic": "process",
+  "source": "doc:support-playbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Support is staffed 7 a.m. to 7 p.m. Pacific, Monday through Friday."
+ },
+ {
+  "id": "seed-016",
+  "topic": "systems",
+  "source": "doc:it-runbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Remote employees connect to internal systems through Brightwater Secure Access, the company VPN."
+ },
+ {
+  "id": "seed-017",
+  "topic": "policy",
+  "source": "doc:support-playbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "The Harbor assistant may draft replies to customers, but a human agent reviews and sends them."
+ },
+ {
+  "id": "seed-018",
+  "topic": "policy",
+  "source": "doc:finance-policy-2026",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Account credit can be applied to a future order but is never paid out as cash."
+ },
+ {
+  "id": "seed-019",
+  "topic": "policy",
+  "source": "doc:support-playbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Damaged shipments are replaced at no charge if reported within 10 business days."
+ },
+ {
+  "id": "seed-020",
+  "topic": "process",
+  "source": "doc:support-playbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Bulk orders of 500 units or more get a dedicated account manager."
+ },
+ {
+  "id": "seed-021",
+  "topic": "people",
+  "source": "doc:org-chart",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Maren Okafor is the Chief Executive Officer of Brightwater Supply Co."
+ },
+ {
+  "id": "seed-022",
+  "topic": "people",
+  "source": "doc:org-chart",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Daniel Reyes is the Chief Financial Officer and approves purchase orders above $10,000."
+ },
+ {
+  "id": "seed-023",
+  "topic": "people",
+  "source": "doc:org-chart",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Priya Natarajan leads People Operations and owns the employee handbook."
+ },
+ {
+  "id": "seed-024",
+  "topic": "people",
+  "source": "doc:org-chart",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Tomas Lindqvist is Head of Operations and runs the Portland warehouse."
+ },
+ {
+  "id": "seed-025",
+  "topic": "people",
+  "source": "doc:org-chart",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Lena Marsh is Vice President of Sales."
+ },
+ {
+  "id": "seed-026",
+  "topic": "people",
+  "source": "doc:org-chart",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Jordan Blake leads IT and is the escalation contact for VPN and single sign-on problems."
+ },
+ {
+  "id": "seed-027",
+  "topic": "people",
+  "source": "doc:org-chart",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Aisha Karim is Head of Customer Support and approves refunds over $500."
+ },
+ {
+  "id": "seed-028",
+  "topic": "people",
+  "source": "doc:org-chart",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "The support team leads are Ben Oyelaran for western accounts and Carla Mendes for eastern accounts."
+ },
+ {
+  "id": "seed-029",
+  "topic": "systems",
+  "source": "doc:it-runbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Tidewell is the customer relationship management system; every customer interaction is logged there."
+ },
+ {
+  "id": "seed-030",
+  "topic": "systems",
+  "source": "doc:it-runbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Deskline is the support ticketing system."
+ },
+ {
+  "id": "seed-031",
+  "topic": "systems",
+  "source": "doc:it-runbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Ledgerstone is the ERP for orders, invoices, and inventory."
+ },
+ {
+  "id": "seed-032",
+  "topic": "systems",
+  "source": "doc:it-runbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Keyring is the single sign-on and secrets vault for all internal systems."
+ },
+ {
+  "id": "seed-033",
+  "topic": "systems",
+  "source": "doc:it-runbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "The Harbor assistant is the AI support agent that drafts replies and looks up orders in Ledgerstone."
+ },
+ {
+  "id": "seed-034",
+  "topic": "systems",
+  "source": "doc:it-runbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Warehouse scanners sync inventory to Ledgerstone every 15 minutes."
+ },
+ {
+  "id": "seed-035",
+  "topic": "process",
+  "source": "doc:support-playbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Deskline ticket priorities are P1 for an outage or safety issue, P2 for a blocked order, and P3 for a question."
+ },
+ {
+  "id": "seed-036",
+  "topic": "general",
+  "source": "doc:employee-handbook-2026",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Brightwater Supply Co. is a business-to-business warehouse and office supply company based in Portland, Oregon, with about 180 employees."
+ },
+ {
+  "id": "seed-037",
+  "topic": "product",
+  "source": "doc:product-catalog",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Brightwater carries about 4,000 products across packaging, safety equipment, janitorial, and office supplies."
+ },
+ {
+  "id": "seed-038",
+  "topic": "product",
+  "source": "doc:product-catalog",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "The Brightwater Pro nitrile glove, SKU BP-NG-1000, comes in cases of 1,000 and ships from Portland within one business day."
+ },
+ {
+  "id": "seed-039",
+  "topic": "product",
+  "source": "doc:product-catalog",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Pallet orders ship by freight and need a loading dock or a liftgate at delivery."
+ },
+ {
+  "id": "seed-040",
+  "topic": "product",
+  "source": "doc:product-catalog",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Custom-printed packaging has a minimum run of 2,500 units and a 3 week lead time."
+ },
+ {
+  "id": "seed-041",
+  "topic": "process",
+  "source": "doc:product-catalog",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Catalog prices are updated on the first business day of each quarter."
+ },
+ {
+  "id": "seed-042",
+  "topic": "customer",
+  "source": "doc:customer-accounts",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Halvorsen Dental is a multi-location dental group in Seattle that buys gloves and sterilization supplies monthly."
+ },
+ {
+  "id": "seed-043",
+  "topic": "customer",
+  "source": "doc:customer-accounts",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Pinecrest Clinics orders janitorial supplies for 12 sites and prefers invoices by email."
+ },
+ {
+  "id": "seed-044",
+  "topic": "customer",
+  "source": "doc:customer-accounts",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Cascade Brewing Collective buys custom-printed shipping boxes twice a year."
+ },
+ {
+  "id": "seed-045",
+  "topic": "customer",
+  "source": "doc:customer-accounts",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Riverbend School District has a tax-exempt account and requires a purchase order number on every invoice."
+ },
+ {
+  "id": "seed-046",
+  "topic": "customer",
+  "source": "doc:customer-accounts",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Northgate Logistics is the largest account by volume and has a dedicated account manager, Ben Oyelaran."
+ },
+ {
+  "id": "seed-047",
+  "topic": "process",
+  "source": "doc:finance-policy-2026",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "New customer accounts are verified against a business license before credit terms are offered."
+ },
+ {
+  "id": "seed-048",
+  "topic": "process",
+  "source": "doc:support-playbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Returns are inspected at the Portland warehouse before a refund is released."
+ },
+ {
+  "id": "seed-049",
+  "topic": "process",
+  "source": "doc:finance-policy-2026",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Every refund, credit, and discount is logged in Ledgerstone with the approver's name."
+ },
+ {
+  "id": "seed-050",
+  "topic": "process",
+  "source": "doc:support-playbook",
+  "source_type": "document",
+  "confidence": 0.95,
+  "text": "Agents verify a customer's identity with the account number and the billing zip code before discussing an order."
+ }
+]

@@ -12,8 +12,8 @@ exclude = [
 # Set the maximum line length
 line-length = 100
 
-# Assume Python 3.10+
-target-version = "py310"
+# Assume Python 3.11+
+target-version = "py311"
 
 [tool.ruff.lint]
 # Enable specific rule sets
