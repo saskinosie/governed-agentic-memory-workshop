@@ -11,7 +11,7 @@ tokenization. Portable: the field list itself. Any store with metadata
 filters can hold this.
 """
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from weaviate import WeaviateClient
 from weaviate.classes.config import Configure, DataType, Property, Tokenization
@@ -70,12 +70,12 @@ PROPERTIES = [
 
 
 def now_utc() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def far_future() -> datetime:
     """Stand-in for 'does not expire'. Weaviate DATE fields cannot be null in a filter."""
-    return datetime(2999, 1, 1, tzinfo=timezone.utc)
+    return datetime(2999, 1, 1, tzinfo=UTC)
 
 
 def lifecycle_dates(tier: str, start: datetime) -> dict:

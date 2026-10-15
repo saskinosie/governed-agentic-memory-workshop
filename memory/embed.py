@@ -96,7 +96,7 @@ def cosine(a: list[float], b: list[float]) -> float:
 def build_cache(texts: list[str], path: Path = CACHE_PATH) -> int:
     """Embed every text with the model and write the cache file. Used by the repo, not in the room."""
     model = _get_model()
-    unique = sorted(set(t.strip() for t in texts if t and t.strip()))
+    unique = sorted({t.strip() for t in texts if t and t.strip()})
     vectors = model.encode(unique, normalize_embeddings=True, show_progress_bar=False)
     payload = {
         "model": model_name(),

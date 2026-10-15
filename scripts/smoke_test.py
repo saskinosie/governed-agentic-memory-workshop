@@ -12,6 +12,7 @@ import sys
 from datetime import timedelta
 from pathlib import Path
 
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from memory import Candidate, connect, describe_tier, ensure_collection, score_candidate  # noqa: E402
