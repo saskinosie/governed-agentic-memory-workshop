@@ -29,15 +29,19 @@ def recall(
     now: datetime | None = None,
 ) -> list[dict]:
     """
-    Hybrid search over active memories. alpha=1 is pure vector, alpha=0 is pure
+    Hybrid search over active memories, limited to org records plus the one scope
+    you name. alpha=1 is pure vector, alpha=0 is pure
     keyword. 0.5 is a fair default; drop it toward 0 when exact words matter
     (names, amounts, system identifiers).
     """
     filters = Filter.by_property("status").equal("active")
     if tiers:
         filters = filters & Filter.by_property("tier").contains_any(tiers)
-    if scope:
-        filters = filters & Filter.by_property("scope").contains_any([scope, "org"])
+    # Fail closed on scope: with no scope named you see only shared org memories.
+    # Name a scope to also see that customer's or team's records, never anyone else's.
+    filters = filters & Filter.by_property("scope").contains_any(
+        [scope, "org"] if scope else ["org"]
+    )
     result = collection.query.hybrid(
         query=query,
         vector=embed_one(query),

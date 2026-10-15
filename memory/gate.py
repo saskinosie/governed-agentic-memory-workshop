@@ -105,14 +105,20 @@ class Gate:
         )  # local import keeps the modules readable on their own
 
         decision = self.check(candidate, scores)
-        if decision.allowed:
-            outcome, uuid = write_or_corroborate(
-                collection, candidate, scores, vector=vector, now=now
-            )
-            decision.outcome, decision.record_uuid = outcome, uuid
-        else:
-            decision.outcome = "denied"
-        self.log.append(decision)
+        try:
+            if decision.allowed:
+                outcome, uuid = write_or_corroborate(
+                    collection, candidate, scores, vector=vector, now=now
+                )
+                decision.outcome, decision.record_uuid = outcome, uuid
+            else:
+                decision.outcome = "denied"
+        except Exception as exc:
+            decision.outcome = "error"
+            decision.reasons.append(("store", f"write failed: {type(exc).__name__}: {exc}"))
+            raise
+        finally:
+            self.log.append(decision)
         return decision
 
     def summary(self) -> dict:

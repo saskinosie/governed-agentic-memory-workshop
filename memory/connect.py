@@ -49,6 +49,10 @@ def collection_name(base: str = BASE_COLLECTION) -> str:
     Your collection's name. On the cloud tier the shared cluster needs one
     collection per attendee, so the handle is required there and becomes a
     prefix: ATTENDEE_HANDLE=ada gives Ada_MemoryRecord.
+
+    This keeps a classroom tidy; it is not tenant isolation. Everyone in the
+    room holds the same sandbox key and could name someone else's handle. A
+    production deployment uses per-tenant credentials or Weaviate multi-tenancy.
     """
     h = handle()
     if mode() == "cloud" and not h:

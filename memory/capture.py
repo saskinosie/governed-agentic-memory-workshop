@@ -44,7 +44,8 @@ class Candidate:
         if not self.context or not self.context.strip():
             problems.append("context is empty")
         if (
-            not isinstance(self.confidence, (int, float))
+            isinstance(self.confidence, bool)
+            or not isinstance(self.confidence, (int, float))
             or not 0.0 <= float(self.confidence) <= 1.0
         ):
             problems.append("confidence must be a number between 0 and 1")

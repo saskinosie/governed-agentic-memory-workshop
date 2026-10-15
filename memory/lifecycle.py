@@ -151,7 +151,7 @@ def decay_decision(record: dict, now: datetime) -> tuple[str | None, str]:
     review_at = record.get("review_at")
     last_used = record.get("last_used") or record.get("captured_at")
     use_count = int(record.get("use_count") or 0)
-    age = now - record["captured_at"]
+    age = now - (record.get("promoted_at") or record["captured_at"])  # time in the current tier
 
     if tier != "org" and expires_at and now >= expires_at:
         return "expired", f"{tier} lifespan ended {expires_at.date()}"
@@ -188,6 +188,10 @@ def renew(collection: Collection, uuid: str, by: str, now: datetime | None = Non
     """A human looked at a needs_review record and said it still holds. Back to active, clock reset."""
     now = now or now_utc()
     record = _get(collection, uuid)
+    if record.get("status") != "needs_review":
+        raise ValueError(
+            f"only needs_review records can be renewed; this one is {record.get('status')}"
+        )
     collection.data.update(
         uuid=uuid,
         properties={

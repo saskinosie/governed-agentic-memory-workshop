@@ -125,7 +125,7 @@ Setup fails for somebody in every room. Three tiers, one variable (`WEAVIATE_MOD
 |---|---|---|---|
 | 1 | `docker` | Local container from `docker-compose.yml` | Primary. Use it if Docker runs. |
 | 2 | `embedded` | Weaviate Embedded, in-process, no Docker. Mac and Linux only. | Docker will not start. |
-| 3 | `cloud` | A shared Weaviate Cloud sandbox with one collection per attendee, prefixed with your handle | Windows, or nothing local works. Credentials given out in the room. |
+| 3 | `cloud` | A shared Weaviate Cloud sandbox with one collection per attendee, prefixed with your handle. A classroom convenience, not tenant isolation: everyone holds the same sandbox key. | Windows, or nothing local works. Credentials given out in the room. |
 
 Notebook 0 walks all three and reports which one you landed on. If ingestion is slow or the embedding model will not load, the workshop texts ship pre-embedded in `data/vector_cache.json`, so seeding takes seconds on any tier and the model is only needed for text you type yourself.
 
