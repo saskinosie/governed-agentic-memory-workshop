@@ -144,9 +144,9 @@ def novelty_score(neighbors: list[Neighbor]) -> float:
 
 
 def content_tokens(text: str) -> set[str]:
-    return {
-        t for t in re.findall(r"[a-z0-9$%.]+", text.lower()) if t not in STOPWORDS and len(t) > 1
-    }
+    """Lowercase word-ish tokens minus stopwords. Trailing periods are dropped so 'approval.' is 'approval'."""
+    tokens = (t.rstrip(".") for t in re.findall(r"[a-z0-9$%.]+", text.lower()))
+    return {t for t in tokens if t not in STOPWORDS and len(t) > 1}
 
 
 def numbers_in(text: str) -> set[str]:
