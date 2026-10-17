@@ -207,6 +207,10 @@ def score_candidate(
     collection: Collection, candidate: Candidate, vector: list[float] | None = None, k: int = 5
 ) -> Scores:
     """Run all three scores against the live store."""
+    if not candidate.text or not candidate.text.strip():
+        # Nothing to compare. No neighbors, so nothing is similar and nothing is contradicted,
+        # and the embedding model is not needed (an empty text is never in the vector cache).
+        return Scores(novelty=1.0, utility=utility_score(candidate), contradiction=0.0)
     vector = vector or embed_one(candidate.text)
     neighbors = nearest_records(collection, vector, k=k)
     contradiction, conflicts_with = contradiction_score(candidate, neighbors)

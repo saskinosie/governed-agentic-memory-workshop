@@ -54,7 +54,7 @@ def run_gate_eval(
     rows = []
     for item in labeled or load_labeled():
         cand = Candidate.from_dict(item)
-        scores = score_candidate(collection, cand, vector=embed_one(cand.text))
+        scores = score_candidate(collection, cand)  # embeds inside; an empty text is scored without a vector
         decision = gate.check(cand, scores)
         rows.append(
             {
