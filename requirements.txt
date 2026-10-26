@@ -1,8 +1,9 @@
-# Core path. No API keys needed.
-weaviate-client>=4.16,<5
-sentence-transformers>=3.0
+# Core path. No API keys needed. Upper bounds are the versions the workshop was tested on
+# (2026-10-24); loosen them after the event.
+weaviate-client>=4.16,<4.25
+sentence-transformers>=3.0,<6.3
 numpy>=1.26
-pandas>=2.0
+pandas>=2.0,<3.2
 python-dotenv>=1.0
 
 # Notebooks

@@ -26,35 +26,36 @@ Every notebook uses the same five words, in the same order: **Capture, Score, Ga
 ### Part 1: Why Memory Is Not RAG (0:00 to 0:10)
 Talk, no laptop needed yet. What changes when the system writes its own corpus, where memory systems fail in production, and the 2026 landscape in one slide.
 
-### Part 2: The Retrieval Substrate (0:10 to 0:30) [notebook 0](notebooks/0-setup.ipynb)
-- Confirm your environment and find out which of the three tiers you are on
-- A memory-oriented schema: provenance, confidence, tier, corroboration count, review date
-- Seed the store with a small fictional company handbook and run hybrid search over it
-- **Why it matters**: governance needs metadata that a plain RAG schema does not carry
+### Part 2: The Prep Run (0:10 to 0:30) [notebook 0](notebooks/0-prep-run.ipynb)
+- Nine tests, run top to bottom. If every cell passes you can do the whole workshop; if one fails it names the service to fix
+- Connect, create a memory-oriented schema (provenance, confidence, tier, corroboration count, review date), seed a small fictional company handbook, run hybrid search over it
+- Then the whole write path once, with the reference code: Capture, Score, Gate, Promote, Decay, Evaluate
+- **Why it matters**: you will have run most of the workshop before we explain any of it, which is the point
 
 ### Part 3: Building the Write Path (0:30 to 1:15, protected)
 The core of the workshop and the part you implement.
 
-**[Notebook 1, Capture and Score](notebooks/1-capture-and-score.ipynb)** (scaffolded, small TODOs)
+**[Notebook 1, Capture and Score](notebooks/1-capture-and-score.ipynb)** (three small TODOs)
 - Capture a candidate memory with full provenance: who, when, in what context, with what confidence
 - Score it for novelty against the store, for utility, and for contradiction with what is already there
 - **Why it matters**: a candidate memory is a proposal, not a fact
 
-**[Notebook 2, Gate](notebooks/2-gate.ipynb)** (you build this one)
+**[Notebook 2, Gate](notebooks/2-gate.ipynb)** (four TODOs; you build this one)
 - A deterministic, fail-closed policy gate in front of the store: a list of plain Python policies, any one of which can deny
 - **The poisoning exercise**: inject false policies, smuggled instructions, and leaked credentials into your own store and watch the gate reject them with a logged reason
 - A stretch cell: extend the gate to catch an attack class we did not discuss in the room
 - **Why it matters**: a policy in a system prompt can be argued with. A gate cannot.
 
-**[Notebook 3, Promote and Decay](notebooks/3-promote-and-decay.ipynb)** (prebuilt, walked through together)
+**[Notebook 3, Promote and Decay](notebooks/3-promote-and-decay.ipynb)** (prebuilt; a walkthrough we run together, with two optional try-it-yourself cells)
 - Promotion from session to team to organization, on corroboration from distinct sources
 - The top tier requires explicit human endorsement, an intentional endorsement gate by design
-- Decay through lifespans, review triggers, and usage-based aging, with a simulated clock so you can watch a year go by
+- Decay through lifespans, review triggers, and usage-based aging, then a simulated clock shows a year go by. An optional cell lets you write the usage rule yourself
 - **Why it matters**: a memory nobody re-examines drifts out of true, so aging is a feature
 
-### Part 4: Evaluating and Governing Memory (1:15 to 1:40) [notebook 4](notebooks/4-evaluation.ipynb)
+### Part 4: Evaluating and Governing Memory (1:15 to 1:40) [notebook 4](notebooks/4-evaluation.ipynb) (prebuilt; a walkthrough we run together, with two optional try-it-yourself cells)
+- Gate catch rate and false deny rate, with an optional cell where you write them yourself, and poisoning resistance on adversarial candidates
 - Promotion precision and recall against a small labeled set of candidates
-- Gate catch rate on known-bad candidates, and poisoning resistance on adversarial ones
+- One label you decide yourself, and what it does to the headline number
 - Each metric defined in the notebook, with how the labels were made and what they do not tell you
 - **Why it matters**: without labels you have opinions about your memory system, not measurements
 
@@ -67,12 +68,12 @@ Two hours is not long. The repo hands you the parts that teach little and protec
 | Component | Who builds it |
 |---|---|
 | Weaviate (any tier), schema, seed corpus, embeddings | Prebuilt. Handed to you working. |
-| Capture and Score | Scaffolded. Working code with a few small TODO cells you complete. |
-| The Gate | **You build most of it.** This is the centerpiece. |
-| Promote and Decay | Prebuilt. Read-through, narrated together. |
-| Evaluation | Prebuilt. Run together. |
+| Capture and Score | Working code with three small TODO cells you complete. |
+| The Gate | **You build most of it.** Four TODOs. This is the centerpiece. |
+| Promote and Decay | Prebuilt. A walkthrough we run together, with a couple of optional try-it-yourself cells for anyone who wants to go deeper. |
+| Evaluation | Prebuilt. A walkthrough we run together, with a couple of optional try-it-yourself cells for anyone who wants to go deeper. |
 
-If you fall behind, every notebook has a cell that loads the reference implementation from `memory/reference.py`, so the next notebook always works.
+If you fall behind, every notebook has a "fell behind" cell that swaps in the reference implementation. Each notebook is designed to run on its own, so if one step fights you, move on and come back. Notebook 0's reset cell puts the store back to the handbook at any time.
 
 ## Quick start
 
@@ -99,14 +100,11 @@ source .venv/bin/activate      # Windows: .venv\Scripts\activate
 python setup.py
 ```
 
-The script pulls the Weaviate image, installs dependencies, pre-downloads the embedding model and the Embedded Weaviate binary, and tells you which tiers are ready on your machine.
+The script pulls the Weaviate image, installs dependencies, pre-downloads the embedding model and the Embedded Weaviate binary, creates `.env` from the example, and tells you which tiers are ready on your machine.
 
 **3. Configure**
-```bash
-cp .env.example .env
-```
 
-The defaults are right for Docker. Set `ATTENDEE_HANDLE` to a short name (letters and digits) so your output is labeled.
+The setup script created `.env` from `.env.example` (if you skipped it: `cp .env.example .env`). The defaults are right for Docker. Set `ATTENDEE_HANDLE` to a short name (letters and digits) so your output is labeled.
 
 **4. Start Weaviate**
 ```bash
@@ -115,7 +113,7 @@ docker compose up -d
 
 **5. Verify**
 
-Open [notebooks/0-setup.ipynb](notebooks/0-setup.ipynb) and run it. The last cell prints your tier and a green check.
+Open [notebooks/0-prep-run.ipynb](notebooks/0-prep-run.ipynb) and run it top to bottom. If every cell passes you can do the whole workshop; if one fails it names the service to fix. The last cell prints your tier and a green check.
 
 ### Fallback tiers
 
@@ -161,11 +159,11 @@ Every notebook ends with a short transferability cell that says what was Weaviat
 
 ```
 notebooks/
-  0-setup.ipynb                # Tier check, schema, seed, hybrid search
-  1-capture-and-score.ipynb    # Provenance, novelty, utility, contradiction (TODOs)
-  2-gate.ipynb                 # Fail-closed policy gate + poisoning exercise (you build)
-  3-promote-and-decay.ipynb    # Tiers, endorsement, aging (prebuilt)
-  4-evaluation.ipynb           # Memory metrics on labeled data (prebuilt)
+  0-prep-run.ipynb             # Readiness check: the whole write path once, with reference code
+  1-capture-and-score.ipynb    # Provenance, novelty, utility, contradiction (3 TODOs)
+  2-gate.ipynb                 # Fail-closed policy gate + poisoning exercise (4 TODOs)
+  3-promote-and-decay.ipynb    # Tiers, endorsement, aging (prebuilt walkthrough, 2 optional cells, clock walk)
+  4-evaluation.ipynb           # Memory metrics on labeled data (prebuilt walkthrough, 2 optional cells)
 memory/                        # The governance layer as small importable modules
   connect.py                   # One function, three tiers
   schema.py                    # The MemoryRecord collection

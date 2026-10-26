@@ -174,3 +174,6 @@ memory/**/__pycache__/
 .weaviate-embedded/
 data/weaviate-embedded/
 notebooks/*.nbconvert.ipynb
+
+# macOS
+.DS_Store
