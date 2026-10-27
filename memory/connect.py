@@ -5,7 +5,7 @@ One environment variable, WEAVIATE_MODE, picks the tier:
 
     docker    local container (tier 1, primary)
     embedded  in-process Weaviate, Mac and Linux only (tier 2)
-    cloud     shared Weaviate Cloud sandbox, per-attendee collections (tier 3)
+    cloud     your own Weaviate Cloud sandbox cluster (tier 3)
 
 Everything above this module is identical on all three tiers.
 
@@ -46,19 +46,18 @@ def handle() -> str:
 
 def collection_name(base: str = BASE_COLLECTION) -> str:
     """
-    Your collection's name. On the cloud tier the shared cluster needs one
-    collection per attendee, so the handle is required there and becomes a
-    prefix: ATTENDEE_HANDLE=ada gives Ada_MemoryRecord.
+    Your collection's name. The handle becomes a prefix: ATTENDEE_HANDLE=ada
+    gives Ada_MemoryRecord. It is required on the cloud tier so a cluster that
+    ends up shared (a sandbox lent to the person next to you) stays tidy.
 
-    This keeps a classroom tidy; it is not tenant isolation. Everyone in the
-    room holds the same sandbox key and could name someone else's handle. A
-    production deployment uses per-tenant credentials or Weaviate multi-tenancy.
+    A prefix is a classroom convenience, not tenant isolation. A production
+    deployment uses per-tenant credentials or Weaviate multi-tenancy.
     """
     h = handle()
     if mode() == "cloud" and not h:
         raise RuntimeError(
-            "WEAVIATE_MODE=cloud needs ATTENDEE_HANDLE set in .env, so your collection "
-            "does not collide with the person next to you."
+            "WEAVIATE_MODE=cloud needs ATTENDEE_HANDLE set in .env (any short name), so "
+            "your collection is labeled and cannot collide on a shared cluster."
         )
     return f"{h}_{base}" if h else base
 

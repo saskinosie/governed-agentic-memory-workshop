@@ -7,7 +7,7 @@
 
 > Build the write path for agent memory: **Capture** candidates with provenance, **Score** them for novelty and contradiction, **Gate** them with a deterministic policy, **Promote** them through tiers, and **Decay** them on a schedule. Then try to poison your own memory store and watch the gate catch it.
 
-ODSC AI West 2026, Burlingame CA. Two-hour hands-on workshop. The framing is in the companion blog post, [Your Agent's Memory Is an Attack Surface](https://opendatascience.com/governed-agentic-memory-five-step-pattern/), so the room gets the short version and we spend the time building.
+ODSC AI West 2026, Burlingame CA. Two-hour hands-on workshop. The framing is in the companion blog post, [Your Agent's Memory Is an Attack Surface](https://opendatascience.com/governed-agentic-memory-five-step-pattern/).
 
 ## The story first
 
@@ -63,7 +63,6 @@ The remaining 20 minutes are a buffer for setup trouble, recap, and questions.
 
 ## Prebuilt, scaffolded, or yours
 
-Two hours is not long. The repo hands you the parts that teach little and protects your time for the parts that teach a lot.
 
 | Component | Who builds it |
 |---|---|
@@ -123,7 +122,7 @@ Setup fails for somebody in every room. Three tiers, one variable (`WEAVIATE_MOD
 |---|---|---|---|
 | 1 | `docker` | Local container from `docker-compose.yml` | Primary. Use it if Docker runs. |
 | 2 | `embedded` | Weaviate Embedded, in-process, no Docker. Mac and Linux only. | Docker will not start. |
-| 3 | `cloud` | A shared Weaviate Cloud sandbox with one collection per attendee, prefixed with your handle. A classroom convenience, not tenant isolation: everyone holds the same sandbox key. | Windows, or nothing local works. Credentials given out in the room. |
+| 3 | `cloud` | Your own free [Weaviate Cloud sandbox](https://console.weaviate.cloud): create a sandbox cluster (a few minutes, lasts 14 days) and put its REST URL and API key in `.env` as `WEAVIATE_CLOUD_URL` and `WEAVIATE_CLOUD_KEY`. | Windows, or nothing local works. |
 
 Notebook 0 walks all three and reports which one you landed on. If ingestion is slow or the embedding model will not load, the workshop texts ship pre-embedded in `data/vector_cache.json`, so seeding takes seconds on any tier and the model is only needed for text you type yourself.
 
