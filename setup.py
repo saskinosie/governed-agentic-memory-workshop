@@ -1,5 +1,5 @@
 """
-Pre-download script for the ODSC AI West 2026 workshop.
+Pre-download script for the MLOps World | GenAI Summit 2026 workshop.
 
 From Retrieval to Recall: Building Governed Agentic Memory on Vector Databases
 
@@ -420,7 +420,7 @@ def verify(require_running: bool = True) -> bool:
 
 if __name__ == "__main__":
     print()
-    print("ODSC AI West 2026 Workshop Setup")
+    print("MLOps World | GenAI Summit 2026 Workshop Setup")
     print("From Retrieval to Recall:")
     print("Building Governed Agentic Memory on Vector Databases")
     print()

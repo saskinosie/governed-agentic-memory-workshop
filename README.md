@@ -7,7 +7,7 @@
 
 > Build the write path for agent memory: **Capture** candidates with provenance, **Score** them for novelty and contradiction, **Gate** them with a deterministic policy, **Promote** them through tiers, and **Decay** them on a schedule. Then try to poison your own memory store and watch the gate catch it.
 
-ODSC AI West 2026, Burlingame CA. Two-hour hands-on workshop. The framing is in the companion blog post, [Your Agent's Memory Is an Attack Surface](https://opendatascience.com/governed-agentic-memory-five-step-pattern/).
+MLOps World | GenAI Summit 2026, Austin TX (first given at ODSC AI West 2026, Burlingame CA). Two-hour hands-on workshop. The framing is in the companion blog post, [Your Agent's Memory Is an Attack Surface](https://opendatascience.com/governed-agentic-memory-five-step-pattern/).
 
 ## The story first
 
@@ -221,4 +221,4 @@ Scott came to AI engineering by way of science. He holds a Ph.D. in Quantitative
 
 ---
 
-**See you in Burlingame!**
+**See you in Austin!**
